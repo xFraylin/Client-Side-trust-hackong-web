@@ -1,34 +1,34 @@
-# Web Cache Poisoning — Mini-game (standalone)
+# Web Cache Poisoning — Minijuego educativo
 
-Minijuego educativo independiente para demostrar **Web Cache Poisoning**. Sin dependencias del portal principal: sin sesión, sin auth, sin base de datos.
+Minijuego para aprender **Web Cache Poisoning**: una vulnerabilidad en la que un atacante consigue que un servidor o proxy cachee una respuesta maliciosa y la sirva a otros usuarios.
 
-## Contenido
+## ¿Qué es Web Cache Poisoning?
 
-- **index.html** — Página del juego (canvas, puntuaciones falsas, popup de flag).
-- **style.css** — Estilos autocontenidos.
-- **game.js** — Lógica del juego y envío de puntuación (POST con `data` en Base64).
-- **server.py** — Servidor opcional: sirve los estáticos y, en POST, si `data` (Base64) decodifica a un número > 10000, devuelve la misma página inyectando `window.SHOW_FLAG` para mostrar la flag en un popup.
+Las cachés (CDN, proxies, Nginx, etc.) guardan respuestas para no tener que generarlas cada vez. Si la clave de caché depende solo de la URL (o de cabeceras que el atacante controla), un atacante puede hacer una petición que provoque una respuesta “envenenada” (con contenido malicioso o sensible). Esa respuesta queda cacheada y se sirve después a otras víctimas que pidan la misma URL.
 
-## Uso solo estático
+En este juego tienes que entender cómo se comporta la aplicación, qué se cachea y cómo explotarlo para obtener la flag. No hay pistas aquí: es un reto.
 
-Abre `index.html` en el navegador (file://). El botón "Enviar puntuación" hará POST a la misma URL; sin backend no verás la flag (útil para integrar en tu propio servidor).
+## Contenido del proyecto
 
-## Uso con servidor incluido
+- **index.html** — Página del juego (canvas, envío de puntuación).
+- **style.css** — Estilos.
+- **game.js** — Lógica del juego y envío de puntuación al servidor.
+- **server.py** — Servidor opcional para jugar en local.
 
-```bash
-python server.py
-```
+## Cómo jugar
 
-Abre http://localhost:8765/  
-Juega, pierde, pulsa "Enviar puntuación". Si quieres ver la flag sin jugar: envía un POST a http://localhost:8765/ con `data=MTAwMDE=` (Base64 de 10001) y se mostrará la flag en la respuesta.
+1. Ejecuta el servidor:
+   ```bash
+   python server.py
+   ```
+2. Abre en el navegador: **http://localhost:8765/**
+3. Juega y explora. El objetivo es conseguir la flag aplicando los conceptos de cache poisoning.
 
-Variable de entorno opcional: `FLAG_CACHE` (por defecto `flag{cache_poisoning}`).
+También puedes abrir `index.html` directamente (file://), pero para que el reto funcione necesitas el servidor o integrar los archivos en tu propio backend.
 
-## Integración en otra app
+## Requisitos
 
-1. Copia la carpeta (o solo `index.html`, `style.css`, `game.js`).
-2. Sirve los estáticos en la ruta que quieras (ej. `/game`).
-3. En esa misma ruta, acepta POST con body `data=<Base64(score)>`. Si `int(decoded) > 10000`, responde con el HTML del juego inyectando `window.SHOW_FLAG = 'tu_flag';` antes de `</body>`.
-4. Para el reto de cache poisoning: configura tu proxy/caché (ej. Nginx) para cachear por URI; así una respuesta “envenenada” con la flag puede servirse a otras víctimas.
+- Python 3.
+- Navegador moderno.
 
-No hay sesión, auth ni base de datos; el juego es autocontenido.
+Sin sesiones, sin base de datos: todo el reto está en entender la vulnerabilidad.
