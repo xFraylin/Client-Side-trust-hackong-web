@@ -17,7 +17,3 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
-
-# Opcional: no subir flags reales si usas .env
-.env
-.env.local
