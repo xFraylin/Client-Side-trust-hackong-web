@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """
-Minimal optional backend for the Web Cache Poisoning mini-game.
+Minimal optional backend for the Client-Side Trust / Parameter Tampering mini-game.
 Serves static files and, on POST with body 'data' (Base64 score), returns
 the game page with window.SHOW_FLAG set when decoded score > 10000.
 
 Usage: python server.py
 Then open http://localhost:8765/
 
-No auth, no DB, no session. For integration behind Nginx/cache, configure
-cache by URI to demonstrate cache poisoning (response with flag cached for GET).
+No auth, no DB, no session. Challenge: don't trust client-supplied parameters.
 """
 
 import base64
@@ -18,7 +17,7 @@ import urllib.parse
 
 PORT = 8765
 THRESHOLD = 10000
-FLAG = os.environ.get('FLAG_CACHE', 'flag{cache_poisoning}')
+FLAG = os.environ.get('FLAG_CACHE', 'flag{client_side_hackong}')
 
 
 def get_decoded_score(data_param):
