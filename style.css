@@ -1,0 +1,188 @@
+/* Standalone Web Cache Poisoning mini-game — no dependency on parent app */
+
+:root {
+    --bg-page: #0f1419;
+    --bg-card: #1a2332;
+    --border: rgba(255,255,255,0.06);
+    --accent: #22d3ee;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --success: #4ade80;
+    --danger: #f87171;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+    --cta-bg: #22d3ee;
+    --cta-text: #0f1419;
+    --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    background: var(--bg-page);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    padding: 1rem;
+}
+
+.game-page { padding: 0; max-width: 900px; margin: 0 auto; }
+
+.page-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.page-header h1 { margin: 0 0 0.25rem; font-size: 1.75rem; }
+.subtitle { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.game-scoreboard { position: sticky; top: 1rem; }
+
+.card-title {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+}
+
+.scoreboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+    padding: 0.4rem 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.scoreboard-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.scoreboard-table td:first-child { color: var(--text-muted); width: 2rem; }
+.scoreboard-table td:last-child { font-weight: 600; color: var(--accent); }
+
+.scoreboard-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0.75rem 0 0;
+}
+
+.game-area-single { max-width: 420px; }
+
+.game-canvas-wrap {
+    position: relative;
+    display: inline-block;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#gameCanvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    cursor: none;
+}
+
+.game-over,
+.game-start {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(15, 20, 25, 0.92);
+    border-radius: 8px;
+}
+
+.game-over p,
+.game-start p { margin: 0; }
+
+.game-start p { font-size: 0.9rem; color: var(--text-muted); }
+.game-over .final-score { font-size: 1.1rem; font-weight: 600; }
+
+.hidden { display: none !important; }
+
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s var(--ease);
+}
+
+.btn:hover { opacity: 0.9; }
+
+.btn-cta, .btn-primary {
+    background: var(--cta-bg);
+    color: var(--cta-text);
+}
+
+.btn-secondary {
+    background: var(--text-muted);
+    color: var(--bg-page);
+}
+
+/* Flag popup */
+.flag-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+}
+
+.flag-popup-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 400px;
+    text-align: center;
+}
+
+.flag-popup-content h2 { margin: 0 0 0.75rem; font-size: 1.25rem; }
+.flag-code {
+    display: block;
+    padding: 0.75rem;
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    font-family: ui-monospace, monospace;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    word-break: break-all;
+}
+
+.flag-popup-close { width: 100%; }
+
+@media (max-width: 640px) {
+    .game-layout { grid-template-columns: 1fr; }
+    .game-scoreboard { position: static; }
+}

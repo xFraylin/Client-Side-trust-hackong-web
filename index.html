@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguridad Arcade — Web Cache Poisoning</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-page">
+        <header class="page-header">
+            <h1>Seguridad Arcade</h1>
+            <p class="subtitle">Evita las bombs, recoge los virus.</p>
+        </header>
+
+        <div id="flagPopup" class="flag-popup hidden" role="alert">
+            <div class="flag-popup-content">
+                <h2>Flag (Cache)</h2>
+                <code class="flag-code" id="flagCode">—</code>
+                <button type="button" class="btn btn-primary flag-popup-close" id="btnClosePopup">Cerrar</button>
+            </div>
+        </div>
+
+        <div class="game-layout">
+            <aside class="game-scoreboard card">
+                <h2 class="card-title">Puntuaciones altas</h2>
+                <table class="scoreboard-table">
+                    <thead>
+                        <tr><th>#</th><th>Jugador</th><th>Puntos</th></tr>
+                    </thead>
+                    <tbody id="scoreboardBody">
+                        <tr><td>1</td><td>Alice</td><td>10000</td></tr>
+                        <tr><td>2</td><td>Bob</td><td>9800</td></tr>
+                        <tr><td>3</td><td>Carol</td><td>9500</td></tr>
+                        <tr><td>4</td><td>Dave</td><td>9200</td></tr>
+                        <tr><td>5</td><td>Eve</td><td>8900</td></tr>
+                        <tr><td>6</td><td>Frank</td><td>8600</td></tr>
+                        <tr><td>7</td><td>Grace</td><td>8300</td></tr>
+                        <tr><td>8</td><td>Henry</td><td>8000</td></tr>
+                        <tr><td>9</td><td>Ivy</td><td>7700</td></tr>
+                        <tr><td>10</td><td>Jack</td><td>7500</td></tr>
+                    </tbody>
+                </table>
+                <p class="scoreboard-hint">El primer puesto tiene <strong>10.000</strong> puntos. Supera esa puntuación para desbloquear la recompensa.</p>
+            </aside>
+            <div class="game-area-single card">
+                <div class="game-canvas-wrap">
+                    <canvas id="gameCanvas" width="400" height="480"></canvas>
+                    <div id="gameOver" class="game-over hidden">
+                        <p>Game Over</p>
+                        <p class="final-score">Puntos: <span id="finalScore">0</span></p>
+                        <button type="button" class="btn btn-primary" id="btnSubmitScore">Enviar puntuación</button>
+                        <a href="" class="btn btn-secondary" id="btnRetry">Reintentar</a>
+                    </div>
+                    <div id="gameStart" class="game-start">
+                        <p>Evita las bombs</p>
+                        <p>Recoge los virus verdes</p>
+                        <button type="button" class="btn btn-cta" id="btnStart">Jugar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+    <script>
+        if (window.SHOW_FLAG) {
+            document.getElementById('flagCode').textContent = window.SHOW_FLAG;
+            document.getElementById('flagPopup').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
