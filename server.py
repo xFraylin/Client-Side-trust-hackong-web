@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
 Minimal optional backend for the Client-Side Trust / Parameter Tampering mini-game.
-Serves static files and, on POST with body 'data' (Base64 score), returns
-the game page with window.SHOW_FLAG set when decoded score > 10000.
+
 
 Usage: python server.py
 Then open http://localhost:8765/
