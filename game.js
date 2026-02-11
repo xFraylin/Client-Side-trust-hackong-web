@@ -1,8 +1,4 @@
-/**
- * Standalone Seguridad Arcade — game logic.
- * Submits score as Base64 in POST body (key: data) to current URL.
- * Configure submitUrl if the form should POST elsewhere.
- */
+ 
 (function() {
     'use strict';
 
